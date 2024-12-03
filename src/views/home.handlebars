@@ -1,0 +1,11 @@
+{{! Layout principal}}
+{{#extend 'main'}}
+  {{#content 'body'}}
+    <h1>Lista de Productos</h1>
+    <ul>
+      {{#each products}}
+        <li>{{name}} - ${{price}}</li>
+      {{/each}}
+    </ul>
+  {{/content}}
+{{/extend}}
