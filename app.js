@@ -8,40 +8,40 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Configuración de Handlebars
-app.engine('handlebars', exphbs.engine());  // Usar la versión actualizada de Handlebars
+//handlebars
+app.engine('handlebars', exphbs.engine());  //
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware para archivos estáticos
+//middle
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Instancia de ProductManager
+
 const productManager = new ProductManager();
 
-// Rutas
-const viewsRouter = require('./src/routes/views.router');  // Solo una vez
+
+const viewsRouter = require('./src/routes/views.router');  // 
 const apiRouter = require('./src/routes/api.router');
 
-// Usar rutas
-app.use('/', viewsRouter);  // Ruta de vistas
-app.use('/api', apiRouter);  // Ruta de API
+//rutas
+app.use('/', viewsRouter);  
+app.use('/api', apiRouter);  
 
-// Configuración de WebSocket
+//websocket
 io.on('connection', (socket) => {
   console.log('Nuevo cliente conectado');
   
-  // Enviar productos al cliente
+  //al cliente
   socket.emit('productos', productManager.getProducts());
   
-  // Manejar agregar producto
+  //agregar producto
   socket.on('agregarProducto', (producto) => {
     productManager.addProduct(producto);
     io.sockets.emit('productos', productManager.getProducts());
   });
   
-  // Manejar eliminar producto
+  //eliminar producto
   socket.on('eliminarProducto', (productoId) => {
     productManager.deleteProduct(productoId);
     io.sockets.emit('productos', productManager.getProducts());
@@ -52,9 +52,9 @@ io.on('connection', (socket) => {
   });
 });
 
-console.log(path.join(__dirname, 'views')); // Asegúrate de que este path sea correcto
+console.log(path.join(__dirname, 'views')); //path sea correcto
 
-// Configuración de puerto
+//puerto
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
